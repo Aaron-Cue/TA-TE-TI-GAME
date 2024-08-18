@@ -1,22 +1,10 @@
 import { useState } from 'react';
-import './styles/App.css';
+import Turno from './components/Turno';
+import ButtonReset from './components/ButtonReset';
+import Modal from './components/Modal';
+import { TURNOS, COMBINACIONES_GANADORAS } from './constantes';
 import confetti from 'canvas-confetti';
-
-const TURNOS = {
-  x: '❌',
-  o: '⭕',
-};
-
-const COMBINACIONES_GANADORAS = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 4, 6],
-  [2, 5, 8],
-  [0, 4, 8],
-];
+import './styles/App.css';
 
 const App = () => {
   const [tablero, setTablero] = useState(Array(9).fill(null));
@@ -65,12 +53,7 @@ const App = () => {
 
   return (
     <>
-      <section>
-        <div className="turno">
-          <h2>Turno de:</h2>
-          <h3>{turno}</h3>
-        </div>
-      </section>
+      <Turno turno={turno} />
 
       <section>
         <div className="tablero">
@@ -86,34 +69,10 @@ const App = () => {
         </div>
       </section>
 
-      <section>
-        <button className="reset" onClick={reiniciar}>
-          reiniciar
-        </button>
-      </section>
+      <ButtonReset reiniciar={reiniciar}>reiniciar</ButtonReset>
 
-      <section>
-        <div className={ganador ? 'modal-box' : 'no-view'}>
-          <div className="modal-content">
-            <h3>GANADOR: {ganador}</h3>
-            <p>felicitaciones papa, ganaste como hermanes fc maniana!</p>
-            <button className="reset" onClick={reiniciar}>
-              reiniciar
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div className={empate ? 'modal-box' : 'no-view'}>
-          <div className="modal-content">
-            <h2>EMPATE</h2>
-            <button className="reset" onClick={reiniciar}>
-              reiniciar
-            </button>
-          </div>
-        </div>
-      </section>
+      <Modal ganador={ganador} reiniciar={reiniciar} />
+      <Modal empate={empate} reiniciar={reiniciar} />
     </>
   );
 };
